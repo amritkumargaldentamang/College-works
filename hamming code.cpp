@@ -20,6 +20,7 @@ int calculateParity(char data[], int parity_type, int n)
 	{
 		if(data[i]=='1')
 			ones++;
+		i++;
 	}
 	
 	if(parity_type==0)
