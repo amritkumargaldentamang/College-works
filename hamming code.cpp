@@ -42,6 +42,18 @@ void calculateHammingCode(char data[],unsigned int m, unsigned int r)
 	{
 		cout<<in_result[i]<<" ";
 	}
+
+	char parityStr[n];
+	for(p=0; p<r; p++)
+	{
+		for(i=0; i<n; i+=pow(2,p+1))
+		{
+			for(j=0; j<pow(2,p) && (i+j)<n; j++)
+			{
+				parityStr[i+j] = in_result[i+j+p];
+			}
+		}
+	}
 	
 
 }
