@@ -1,37 +1,88 @@
-#include<iostream>
-#include<cstring>
-#define max 30
+#include <iostream>
+#include <cmath>
+#include <cstring>
 using namespace std;
-int calculateCodeBits(char *data)
+
+unsigned int calculateParityBits(int datalength)
 {
-	
+	unsigned int r=1;
+	while(pow(2,r)<(r+datalength+1))
+	{
+		r++;
+	}
+	return r;
 }
 
-unsigned char calculateHammingCode(char data, int code_bits)
-{
+void calculateHammingCode(char data[],unsigned int m, unsigned int r)
+{	
+	int n = m+r;
+	char in_result[n];
 	
+	int i,j,p;
+	
+	//positioning parity bit and data bits
+	for(i=1; i<=n; i++)
+	{
+		if(i & (i-1)==0)
+			{
+				in_result[i-1] = '0';
+			}
+		else
+		{
+			if(m>0)
+			{
+				m-=1;
+				in_result[i-1]= data[m];
+			}
+		}
+		cout<<in_result[i-1]<<endl;
+	}
+	cout<<n<<":result-bits"<<endl;
+	for(i=0; i<n; i++)
+	{
+		cout<<in_result[i]<<" ";
+	}
+	
+
 }
 
-void checkReceivedData(unsigned char *data,int parity_no)
+int calculateParity(char data[], int parity_type, int n)
 {
+	int i=0, ones=0;
+	while(i<n)
+	{
+		if(data[i]=='1')
+			ones++;
+	}
 	
+	if(parity_type==0)
+	{
+		return (ones%2==0)?0:1;
+	}
+	else
+	{
+		return (ones%2==0)?1:0;
+	}
 }
 
-int main()
-{
-	unsigned char databits[max], tx[];
-	cout<<"Enter your data:";
-	cin>>databits;
-	cout<<endl;
+int main() {
+    unsigned int n;
+
+    // Input array size
+    cout << "Enter the number of data bits ";
+    cin >> n;
+
+    char databits[n];
+
+    // Input array elements
+    cout << "Enter " << n << " elements:(only binary)\n";
+    for(int i = 0; i < n; i++) {
+        cin >> databits[i];
+    }
 	
-	//calculate number of bits for hamming code
-	int code_bit = calculateCodeBits(databits);
+	unsigned int parity_no= calculateParityBits(n);
+	cout<<parity_no<<":parity-bits. "<<"data bits= "<< n <<endl;
+	calculateHammingCode(databits, n, parity_no);
 	
-	//calculate and append hamming code to databits
-	tx=calculateHammingCode(databits, code_bit);
-	
-	//check the transferred data at receiver side
-	checkReceivedData(tx,code_bit);
-	
-	return 0;
+    return 0;
 }
