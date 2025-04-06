@@ -23,7 +23,7 @@ void calculateHammingCode(char data[],unsigned int m, unsigned int r)
 	//positioning parity bit and data bits
 	for(i=1; i<=n; i++)
 	{
-		if(i & (i-1)==0)
+		if((i & (i-1))==0)
 			{
 				in_result[i-1] = '0';
 			}
